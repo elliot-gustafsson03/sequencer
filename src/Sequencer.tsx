@@ -1,12 +1,17 @@
 import { For, Show, createSignal, onMount } from 'solid-js'
+import { Howl } from 'howler'
 
 interface channelType {
     name: string
-    audio: HTMLAudioElement
+    audio: Howl
     cells: boolean[]
 }
 
-function Sequencer() {
+interface ChildComponentRef {
+    triggerSeq: (index: number) => void
+}
+
+function Sequencer(props: { refSetter: (ref: ChildComponentRef) => void }) {
     const [channel1, setChannel1] = createSignal<channelType>()
     //const [channel2, setChannel2] = createSignal<channelType>()
     //const [channel3, setChannel3] = createSignal<channelType>()
@@ -14,10 +19,19 @@ function Sequencer() {
     onMount(() => {
         setChannel1({
             name: 'Kick',
-            audio: new Audio('#'),
+            audio: new Howl({ src: '/kick.wav' }),
             cells: Array<boolean>(16).fill(false),
         })
+
+        props.refSetter({ triggerSeq })
     })
+
+    function triggerSeq(index: number) {
+        if (channel1()?.cells[index]) {
+            console.log(index)
+            channel1()?.audio.play()
+        }
+    }
 
     function toggleCell(index: number): () => void {
         return () =>

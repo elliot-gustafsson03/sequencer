@@ -53,3 +53,40 @@
 .cell.active:active {
     opacity: 0.15;
 }
+
+.menu-dock {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    position: fixed;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.btn {
+    position: relative;
+    height: 50px;
+    width: 80px;
+    background: linear-gradient(white, gray);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+.btn:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
+}
+
+.btn img {
+    width: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
