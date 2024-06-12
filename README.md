@@ -1,28 +1,29 @@
-## Usage
+# Sequencer
+
+This is a simple sequencer program which allows for programming of drum beats. The sequencer has three channels with preset sounds, which are:
+
+-   kick drum
+-   Hi-hat
+-   Snare
+
+These sounds cannot be updated at runtime, instead the user can choose when to trigger them. It is also possible to change the tempo of the beat.
+
+## Installation
+
+Running and developing this program requires the [Bun javascript runtime](https://github.com/oven-sh/bun). After cloning this repository, navigate into the top directory and run:
 
 ```bash
-$ npm install # or pnpm install or yarn install
+$ bun install
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+to install all necesarry packages.
 
-## Available Scripts
+## Running the program
 
-In the project directory, you can run:
+To start a development server, run the following command:
 
-### `npm run dev`
+```bash
+$ bun run dev
+```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
-
-### `npm run build`
-
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-## Deployment
-
-Learn more about deploying your application with the [documentations](https://vitejs.dev/guide/static-deploy.html)
+then open a web browser and navigate to [localhost on port 5173](http://localhost:5173).
