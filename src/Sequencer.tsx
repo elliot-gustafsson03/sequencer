@@ -1,4 +1,4 @@
-import { For, Show, createSignal, onMount } from 'solid-js'
+import { For, createSignal, onMount } from 'solid-js'
 import { Howl } from 'howler'
 
 interface channelType {

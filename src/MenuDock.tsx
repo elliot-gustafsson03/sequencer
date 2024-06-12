@@ -4,6 +4,8 @@ function MenuDock(props: {
     play: () => void
     pause: () => void
     stop: () => void
+    bpm: number
+    setBpm: (bpm: number) => void
 }) {
     const [paused, setPaused] = createSignal(true)
 
@@ -26,6 +28,14 @@ function MenuDock(props: {
                 icon={paused() ? '/play.svg' : '/pause.svg'}
                 onClick={togglePause}
             />
+            <div class="bpm">
+                <label>BPM:</label>
+                <input
+                    type="number"
+                    value={props.bpm}
+                    oninput={(e) => props.setBpm(+e.target.value)}
+                />
+            </div>
         </div>
     )
 }

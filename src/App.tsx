@@ -1,4 +1,4 @@
-import { createSignal, Component } from 'solid-js'
+import { createSignal } from 'solid-js'
 import MenuDock from './MenuDock'
 import Sequencer from './Sequencer'
 import './css/App.css'
@@ -45,7 +45,13 @@ function App() {
     return (
         <>
             <Sequencer refSetter={setRef} />
-            <MenuDock play={play} pause={pause} stop={stop} />
+            <MenuDock
+                play={play}
+                pause={pause}
+                stop={stop}
+                bpm={bpm()}
+                setBpm={(bpm: number) => setBpm(bpm)}
+            />
         </>
     )
 }
