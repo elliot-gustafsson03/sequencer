@@ -12,45 +12,77 @@ interface ChildComponentRef {
 }
 
 function Sequencer(props: { refSetter: (ref: ChildComponentRef) => void }) {
-    const [channel1, setChannel1] = createSignal<channelType>()
-    //const [channel2, setChannel2] = createSignal<channelType>()
-    //const [channel3, setChannel3] = createSignal<channelType>()
+    const [channels, setChannels] = createSignal<channelType[]>()
+
+    const [currentIndex, setCurrentIndex] = createSignal(-1)
 
     onMount(() => {
-        setChannel1({
-            name: 'Kick',
-            audio: new Howl({ src: '/kick.wav' }),
-            cells: Array<boolean>(16).fill(false),
-        })
+        setChannels([
+            {
+                name: 'Kick',
+                audio: new Howl({ src: '/kick.wav' }),
+                cells: Array<boolean>(16).fill(false),
+            },
+            {
+                name: 'Hi-hat',
+                audio: new Howl({ src: '/hihat.wav' }),
+                cells: Array<boolean>(16).fill(false),
+            },
+            {
+                name: 'Snare',
+                audio: new Howl({ src: '/snare.wav' }),
+                cells: Array<boolean>(16).fill(false),
+            },
+        ])
 
         props.refSetter({ triggerSeq })
     })
 
     function triggerSeq(index: number) {
-        if (channel1()?.cells[index]) {
-            console.log(index)
-            channel1()?.audio.play()
+        setCurrentIndex(index)
+
+        if (index >= 0) {
+            channels()?.forEach((channel) => {
+                if (channel.cells[index]) {
+                    channel.audio.play()
+                }
+            })
         }
     }
 
-    function toggleCell(index: number): () => void {
-        return () =>
-            setChannel1((prev) => {
-                let newCells = prev!.cells.slice()
-                newCells[index] = !newCells[index]
-                return { name: prev!.name, audio: prev!.audio, cells: newCells }
-            })
+    function toggleCell(channelIndex: number, cellIndex: number): void {
+        setChannels((prev) => {
+            let channels = prev!.slice()
+            let channel = channels.splice(channelIndex, 1)[0]
+            let cells = channel.cells.slice()
+            cells[cellIndex] = !cells[cellIndex]
+
+            return [
+                ...channels.slice(0, channelIndex),
+                { name: channel.name, audio: channel.audio, cells: cells },
+                ...channels.slice(channelIndex),
+            ]
+        })
+    }
+
+    function partialToggleCell(channelIndex: number): (index: number) => void {
+        return (index: number) => toggleCell(channelIndex, index)
     }
 
     return (
         <div class="sequencer">
-            <Show when={channel1()}>
-                <Channel
-                    name={channel1()!.name}
-                    cells={channel1()!.cells}
-                    toggleCell={toggleCell}
-                />
-            </Show>
+            <For each={channels()}>
+                {(channel, index) => {
+                    return (
+                        <Channel
+                            name={channel.name}
+                            cells={channel.cells}
+                            triggeredCell={currentIndex()}
+                            toggleCell={partialToggleCell(index())}
+                        />
+                    )
+                }}
+            </For>
         </div>
     )
 }
@@ -60,7 +92,8 @@ export default Sequencer
 function Channel(props: {
     name: string
     cells: boolean[]
-    toggleCell: (index: number) => () => void
+    triggeredCell: number
+    toggleCell: (index: number) => void
 }) {
     return (
         <div class="channel">
@@ -71,7 +104,8 @@ function Channel(props: {
                         return (
                             <Cell
                                 active={cell}
-                                toggleCell={props.toggleCell(index())}
+                                triggered={props.triggeredCell == index()}
+                                toggleCell={() => props.toggleCell(index())}
                             />
                         )
                     }}
@@ -81,10 +115,16 @@ function Channel(props: {
     )
 }
 
-function Cell(props: { active: boolean; toggleCell: () => void }) {
+function Cell(props: {
+    active: boolean
+    triggered: boolean
+    toggleCell: () => void
+}) {
     return (
         <div
-            class={`cell ${props.active ? 'active' : ''}`}
+            class={`cell ${props.active ? 'active' : ''} ${
+                props.triggered ? 'triggered' : ''
+            }`}
             onClick={() => props.toggleCell()}
         />
     )

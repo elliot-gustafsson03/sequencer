@@ -29,6 +29,10 @@ function App() {
     function stop() {
         pause()
         seqIndex = 0
+
+        if (childRef) {
+            childRef.triggerSeq(-1)
+        }
     }
 
     function incSeq() {

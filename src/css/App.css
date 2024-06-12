@@ -54,6 +54,10 @@
     opacity: 0.15;
 }
 
+.cell.triggered {
+    background-color: rgb(255, 255, 200);
+}
+
 .menu-dock {
     display: flex;
     flex-direction: row;
