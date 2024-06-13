@@ -20,7 +20,9 @@ function Sequencer(props: { refSetter: (ref: ChildComponentRef) => void }) {
         setChannels([
             {
                 name: 'Kick',
-                audio: new Howl({ src: '/kick.wav' }),
+                audio: new Howl({
+                    src: 'https://drive.google.com/file/d/1oOiHBfnfC9YCwqjPgIgb_gu-Xre48Sy7/view?usp=sharing',
+                }),
                 cells: Array<boolean>(16).fill(false),
             },
             {
