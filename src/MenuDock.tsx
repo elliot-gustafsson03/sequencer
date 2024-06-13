@@ -25,7 +25,7 @@ function MenuDock(props: {
         <div class="menu-dock">
             <Button icon="stop.svg" onClick={clickStop} />
             <Button
-                icon={paused() ? '/play.svg' : '/pause.svg'}
+                icon={paused() ? 'play.svg' : 'pause.svg'}
                 onClick={togglePause}
             />
             <div class="bpm">
