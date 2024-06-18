@@ -2,10 +2,7 @@ import { createSignal } from 'solid-js'
 import MenuDock from './MenuDock'
 import Sequencer from './Sequencer'
 import './css/App.css'
-
-interface ChildComponentRef {
-    triggerSeq: (index: number) => void
-}
+import { ChildComponentRef } from './Sequencer'
 
 function App() {
     const [bpm, setBpm] = createSignal(120)
